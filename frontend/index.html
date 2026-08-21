@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hotel Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="login-page">
+
+    <div class="login-card">
+
+        <div class="brand-mark">H</div>
+
+        <h1>Hotel Management</h1>
+
+        <p class="muted">
+            Hotel Management System
+        </p>
+
+        <form id="loginForm">
+
+            <label>Username</label>
+            <input
+                type="text"
+                id="username"
+                placeholder="Enter username"
+                required
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                required
+            >
+
+            <button class="btn primary full" type="submit">
+                Sign In
+            </button>
+
+        </form>
+
+        <p class="hint">
+            Enter any username and password to continue
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- APPLICATION -->
+<div id="app" class="app hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                H
+            </div>
+
+            <div>
+                <h2>Hotel Management</h2>
+                <small>Management System</small>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <button
+                class="nav-btn active"
+                data-page="dashboard">
+                🏠 Dashboard
+            </button>
+
+            <button
+                class="nav-btn"
+                data-page="guests">
+                👤 Guests
+            </button>
+
+            <button
+                class="nav-btn"
+                data-page="rooms">
+                🛏 Rooms
+            </button>
+
+            <button
+                class="nav-btn"
+                data-page="reservations">
+                📅 Reservations
+            </button>
+
+            <button
+                class="nav-btn"
+                data-page="payments">
+                💳 Payments
+            </button>
+
+        </nav>
+
+
+        <button
+            class="logout"
+            id="logoutBtn">
+            Logout
+        </button>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page active">
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Welcome to your Hotel Management System.</p>
+                </div>
+
+                <span class="date" id="today"></span>
+
+            </header>
+
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <span>Total Guests</span>
+                    <strong id="totalGuests">0</strong>
+                    <small>Registered guests</small>
+                </div>
+
+                <div class="stat-card">
+                    <span>Total Rooms</span>
+                    <strong id="totalRooms">0</strong>
+                    <small>Hotel rooms</small>
+                </div>
+
+                <div class="stat-card">
+                    <span>Available Rooms</span>
+                    <strong id="availableRooms">0</strong>
+                    <small>Ready for booking</small>
+                </div>
+
+                <div class="stat-card">
+                    <span>Occupied Rooms</span>
+                    <strong id="occupiedRooms">0</strong>
+                    <small>Currently occupied</small>
+                </div>
+
+            </div>
+
+
+            <div class="grid-2">
+
+                <div class="panel">
+
+                    <div class="panel-head">
+                        <h2>Room Overview</h2>
+                    </div>
+
+                    <div
+                        id="roomOverview"
+                        class="room-mini-grid">
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-head">
+                        <h2>Recent Reservations</h2>
+                    </div>
+
+                    <div id="recentReservations"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- GUESTS -->
+        <section id="guests" class="page">
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Guests</h1>
+                    <p>Manage registered hotel guests.</p>
+                </div>
+
+                <button
+                    class="btn primary"
+                    id="addGuestBtn">
+                    + Add Guest
+                </button>
+
+            </header>
+
+
+            <div class="toolbar">
+
+                <input
+                    type="text"
+                    id="guestSearch"
+                    placeholder="Search guest..."
+                >
+
+            </div>
+
+
+            <div class="panel table-panel">
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="guestTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ROOMS -->
+        <section id="rooms" class="page">
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Rooms</h1>
+                    <p>Monitor hotel rooms and availability.</p>
+                </div>
+
+            </header>
+
+
+            <div
+                id="roomCards"
+                class="room-cards">
+            </div>
+
+
+            <div class="panel table-panel">
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Room Number</th>
+                                <th>Room Type</th>
+                                <th>Price/Night</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="roomTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESERVATIONS -->
+        <section id="reservations" class="page">
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Reservations</h1>
+                    <p>Manage hotel reservations.</p>
+                </div>
+
+                <button
+                    class="btn primary"
+                    id="newReservationBtn">
+                    + New Reservation
+                </button>
+
+            </header>
+
+
+            <div class="panel table-panel">
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Guest</th>
+                                <th>Room</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="reservationTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PAYMENTS -->
+        <section id="payments" class="page">
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Payments</h1>
+                    <p>View payment information.</p>
+                </div>
+
+            </header>
+
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <span>Total Payments</span>
+                    <strong id="paymentCount">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Paid Amount</span>
+                    <strong id="paidAmount">₹0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Pending Amount</span>
+                    <strong id="pendingAmount">₹0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="panel table-panel">
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Payment ID</th>
+                                <th>Guest</th>
+                                <th>Reservation</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="paymentTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- GUEST MODAL -->
+<div id="guestModal" class="modal">
+
+    <div class="modal-box">
+
+        <button class="close" data-close="guestModal">×</button>
+
+        <h2>Add Guest</h2>
+
+        <form id="guestForm">
+
+            <label>Name</label>
+            <input id="guestName" required>
+
+            <label>Phone</label>
+            <input id="guestPhone" required>
+
+            <label>Email</label>
+            <input id="guestEmail" type="email">
+
+            <label>Address</label>
+            <input id="guestAddress">
+
+            <button class="btn primary full" type="submit">
+                Add Guest
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- RESERVATION MODAL -->
+<div id="reservationModal" class="modal">
+
+    <div class="modal-box">
+
+        <button class="close" data-close="reservationModal">×</button>
+
+        <h2>New Reservation</h2>
+
+        <form id="reservationForm">
+
+            <label>Guest</label>
+
+            <select id="reservationGuest" required></select>
+
+
+            <label>Room</label>
+
+            <select id="reservationRoom" required></select>
+
+
+            <label>Check-in</label>
+
+            <input
+                type="date"
+                id="checkIn"
+                required
+            >
+
+
+            <label>Check-out</label>
+
+            <input
+                type="date"
+                id="checkOut"
+                required
+            >
+
+
+            <button
+                class="btn primary full"
+                type="submit">
+                Create Reservation
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
